@@ -34,7 +34,7 @@ async function poll() {
       const res = await fetch(api("getUpdates"), {
         method: "POST",
         headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({ offset, timeout: 30, allowed_updates: ["message", "edited_message"] }),
+        body: JSON.stringify({ offset, timeout: 30, allowed_updates: ["message", "edited_message", "my_chat_member"] }),
       });
       const data = await res.json();
       if (!data.ok) {
@@ -44,6 +44,13 @@ async function poll() {
       }
       for (const update of data.result) {
         offset = update.update_id + 1;
+        const m = update.message || update.edited_message;
+        if (update.my_chat_member) {
+          const c = update.my_chat_member.chat;
+          console.log(`← update ${update.update_id} my_chat_member in chat ${c?.id} (${c?.title || c?.type}) -> ${update.my_chat_member.new_chat_member?.status}`);
+        } else {
+          console.log(`← update ${update.update_id} from chat ${m?.chat?.id}: ${JSON.stringify(m?.text)}`);
+        }
         handleUpdate(update).catch((e) => console.error("handleUpdate error:", e));
       }
     } catch (e) {

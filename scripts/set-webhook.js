@@ -45,7 +45,7 @@ async function main() {
   }
 
   const url = `${arg.replace(/\/$/, "")}/api/telegram`;
-  const payload = { url, allowed_updates: ["message", "edited_message"] };
+  const payload = { url, allowed_updates: ["message", "edited_message", "my_chat_member"] };
   if (SECRET) payload.secret_token = SECRET;
 
   const res = await fetch(api("setWebhook"), {

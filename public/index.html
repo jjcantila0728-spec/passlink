@@ -1,0 +1,137 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>PassLink</title>
+    <link rel="stylesheet" href="/styles.css" />
+  </head>
+  <body>
+    <!-- Auth gate -->
+    <section id="gate" class="gate">
+      <div class="gate-inner">
+        <h1 class="gate-title">PassLink</h1>
+        <form id="gateForm" class="gate-row" autocomplete="off">
+          <input
+            id="gateInput"
+            type="text"
+            spellcheck="false"
+            autocapitalize="off"
+            placeholder="Access code"
+            required
+          />
+          <button id="gateBtn" type="submit">Enter</button>
+        </form>
+        <div id="gateError" class="gate-error" hidden></div>
+      </div>
+    </section>
+
+    <!-- Main app -->
+    <main id="app" hidden>
+      <header class="app-head">
+        <h1>PassLink</h1>
+        <nav class="tabs">
+          <button class="tab active" data-tab="bypass">Bypass</button>
+          <button class="tab admin-only" data-tab="management" hidden>Management</button>
+        </nav>
+        <button id="logout" class="ghost sm" type="button">Logout</button>
+      </header>
+
+      <!-- Bypass tab -->
+      <section id="tab-bypass" class="tab-panel">
+        <p class="tagline">Bypass shorteners and ad-gated countdowns. Paste a link, get the destination.</p>
+
+        <form id="form" autocomplete="off">
+          <input
+            id="url"
+            type="text"
+            inputmode="url"
+            spellcheck="false"
+            placeholder="https://urlshortx.io/... or any shortened URL"
+            required
+          />
+          <button id="go" type="submit">Bypass</button>
+          <button id="resend" type="button" class="ghost" hidden title="Re-run with the same URL">Resend</button>
+          <button id="reset" type="button" class="ghost" hidden>Reset</button>
+        </form>
+
+        <section id="logBox" class="panel log hidden" aria-live="polite">
+          <div class="panel-head">
+            <span class="dot"></span>
+            <span id="logTitle">Working…</span>
+            <span class="grow"></span>
+            <span id="logElapsed" class="muted mono"></span>
+          </div>
+          <pre id="logBody" class="log-body"></pre>
+        </section>
+
+        <section id="result" class="panel result hidden">
+          <div class="panel-head">
+            <span class="label">Destination</span>
+            <span class="grow"></span>
+            <span id="resultMeta" class="muted mono"></span>
+          </div>
+          <a id="finalLink" class="final-link" target="_blank" rel="noopener noreferrer"></a>
+          <div class="actions">
+            <button id="copyBtn" type="button" class="ghost">Copy</button>
+            <button id="openBtn" type="button">Open</button>
+          </div>
+          <details>
+            <summary>Redirect chain</summary>
+            <ol id="chain" class="mono"></ol>
+          </details>
+        </section>
+
+        <section id="error" class="panel error hidden">
+          <span class="label">Error</span>
+          <span id="errorText"></span>
+        </section>
+      </section>
+
+      <!-- Management tab (admin only) -->
+      <section id="tab-management" class="tab-panel admin-only" hidden>
+        <p class="tagline">Generate access codes. Each is valid for 30 days from creation.</p>
+
+        <form id="genForm" class="gen-row">
+          <label class="gen-field">
+            <span>Count</span>
+            <input id="genCount" type="number" min="1" max="50" value="1" />
+          </label>
+          <label class="gen-field">
+            <span>Valid for (days)</span>
+            <input id="genDays" type="number" min="1" max="365" value="30" />
+          </label>
+          <button id="genBtn" type="submit">Generate</button>
+        </form>
+
+        <section id="genResult" class="panel hidden">
+          <div class="panel-head">
+            <span class="label">Just generated</span>
+            <span class="grow"></span>
+            <button id="copyAllBtn" type="button" class="ghost sm">Copy all</button>
+          </div>
+          <pre id="genResultBody" class="log-body"></pre>
+        </section>
+
+        <section class="panel">
+          <div class="panel-head">
+            <span class="label">All codes</span>
+            <span class="grow"></span>
+            <span id="codesMeta" class="muted mono"></span>
+            <button id="refreshCodes" type="button" class="ghost sm">Refresh</button>
+          </div>
+          <div id="codesList" class="codes-list"></div>
+        </section>
+      </section>
+
+      <footer>
+        <span>
+          Built by
+          <a href="https://t.me/bossjay0728" target="_blank" rel="noopener noreferrer"><strong>Bossjay</strong></a>
+        </span>
+      </footer>
+    </main>
+
+    <script src="/app.js"></script>
+  </body>
+</html>

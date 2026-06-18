@@ -1,0 +1,7 @@
+{
+  "$schema": "https://openapi.vercel.sh/vercel.json",
+  "functions": {
+    "api/bypass.js": { "maxDuration": 30 },
+    "api/bypass-stream.js": { "maxDuration": 30 }
+  }
+}

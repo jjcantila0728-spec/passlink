@@ -1,0 +1,17 @@
+{
+  "name": "passlink",
+  "version": "1.0.0",
+  "description": "Bypass URL shorteners and ad-gated countdown pages",
+  "main": "server.js",
+  "scripts": {
+    "start": "node server.js",
+    "dev": "node --watch server.js"
+  },
+  "type": "module",
+  "engines": {
+    "node": ">=18"
+  },
+  "dependencies": {
+    "express": "^4.19.2"
+  }
+}

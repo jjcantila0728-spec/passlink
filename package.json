@@ -5,7 +5,9 @@
   "main": "server.js",
   "scripts": {
     "start": "node server.js",
-    "dev": "node --watch server.js"
+    "dev": "node --watch server.js",
+    "bot": "node scripts/bot-poll.js",
+    "webhook": "node scripts/set-webhook.js"
   },
   "type": "module",
   "engines": {

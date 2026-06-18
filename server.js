@@ -1,7 +1,11 @@
 import express from "express";
 import path from "node:path";
 import { fileURLToPath } from "node:url";
+import { loadEnv } from "./lib/env.js";
 import { bypass } from "./lib/bypass.js";
+import { handleUpdate, isConfigured as telegramConfigured, getWebhookSecret } from "./lib/telegram.js";
+
+loadEnv();
 import {
   classify,
   isAdminCode,
@@ -119,6 +123,24 @@ app.get("/api/bypass-stream", requireValidCode, async (req, res) => {
   } finally {
     clearInterval(heartbeat);
     res.end();
+  }
+});
+
+// --- Telegram webhook ---
+
+app.post("/api/telegram", async (req, res) => {
+  if (!telegramConfigured()) {
+    return res.status(500).end("TELEGRAM_BOT_TOKEN not configured");
+  }
+  const secret = getWebhookSecret();
+  if (secret && req.get("x-telegram-bot-api-secret-token") !== secret) {
+    return res.status(401).end("unauthorized");
+  }
+  res.status(200).end("ok");
+  try {
+    await handleUpdate(req.body);
+  } catch (err) {
+    console.error("[passlink-tg] handleUpdate error:", err);
   }
 });
 

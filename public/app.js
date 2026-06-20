@@ -96,6 +96,9 @@ function showApp() {
     if (session?.role === "admin") show(el);
     else hide(el);
   });
+  // The management panel is admin-only but its visibility is tab-driven —
+  // keep it hidden until its tab is selected, otherwise it shows on Bypass too.
+  hide(tabManagement);
 }
 
 function showGate(errorMsg) {

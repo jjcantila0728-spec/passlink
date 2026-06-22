@@ -136,12 +136,17 @@ app.post("/api/telegram", async (req, res) => {
   if (secret && req.get("x-telegram-bot-api-secret-token") !== secret) {
     return res.status(401).end("unauthorized");
   }
-  res.status(200).end("ok");
+  // Process the update BEFORE responding. On scale-to-zero / auto-sleep hosts
+  // the process can be frozen the moment the response is flushed, which would
+  // kill the outbound sendMessage if we replied first. Telegram allows ~60s
+  // before it retries, and our slowest path (countdown + bypass) stays well
+  // under that, so awaiting here is safe.
   try {
     await handleUpdate(req.body);
   } catch (err) {
     console.error("[passlink-tg] handleUpdate error:", err);
   }
+  res.status(200).end("ok");
 });
 
 app.listen(PORT, () => {

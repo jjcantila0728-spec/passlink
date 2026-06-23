@@ -44,10 +44,11 @@ export default async function handler(req, res) {
 
   const update = await readJsonBody(req);
 
-  // Respond 200 immediately; process without blocking Telegram's retry logic.
-  res.statusCode = 200;
-  res.end("ok");
-
+  // Process the update BEFORE responding. On serverless the function can be
+  // frozen the instant the response is flushed, which would kill the outbound
+  // sendMessage if we replied first. Telegram allows ~60s before it retries and
+  // our slowest path (countdown + bypass) stays well under maxDuration, so
+  // awaiting here is safe.
   if (update) {
     try {
       await handleUpdate(update);
@@ -55,4 +56,7 @@ export default async function handler(req, res) {
       console.error("[passlink-tg] handleUpdate error:", err);
     }
   }
+
+  res.statusCode = 200;
+  res.end("ok");
 }

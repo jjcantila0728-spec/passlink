@@ -76,7 +76,7 @@ app.post("/api/bypass", requireValidCode, async (req, res) => {
     return res.status(400).json({ ok: false, error: "Missing 'url' in body" });
   }
   try {
-    const result = await bypass(url);
+    const result = await bypass(url, { context: { actorType: "web", actorId: getCode(req) } });
     res.json({ ok: true, ...result });
   } catch (err) {
     res.status(500).json({ ok: false, error: err.message || String(err) });
@@ -90,7 +90,7 @@ app.get("/api/bypass", requireValidCode, async (req, res) => {
     return res.status(400).json({ ok: false, error: "Missing 'url' query parameter" });
   }
   try {
-    const result = await bypass(url);
+    const result = await bypass(url, { context: { actorType: "web", actorId: getCode(req) } });
     if (redirect) return res.redirect(302, result.finalUrl);
     res.json({ ok: true, ...result });
   } catch (err) {
@@ -116,7 +116,10 @@ app.get("/api/bypass-stream", requireValidCode, async (req, res) => {
   const heartbeat = setInterval(() => res.write(`: ping\n\n`), 15000);
 
   try {
-    const result = await bypass(url, { onNote: (note) => send("note", { note }) });
+    const result = await bypass(url, {
+      onNote: (note) => send("note", { note }),
+      context: { actorType: "web", actorId: getCode(req) },
+    });
     send("done", { ok: true, ...result });
   } catch (err) {
     send("error", { ok: false, error: err.message || String(err) });

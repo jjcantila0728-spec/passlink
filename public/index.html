@@ -2,35 +2,55 @@
 <html lang="en">
   <head>
     <meta charset="utf-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1" />
-    <title>PassLink</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover" />
+    <title>PassLink — bypass shortened &amp; ad-gated links</title>
+    <meta name="description" content="Bypass URL shorteners and ad-gated countdown pages. Paste a link, get the final destination." />
+
+    <link rel="icon" href="/favicon.svg" type="image/svg+xml" />
+    <link rel="apple-touch-icon" href="/favicon.svg" />
+    <link rel="manifest" href="/site.webmanifest" />
+    <meta name="theme-color" media="(prefers-color-scheme: light)" content="#FAFAF9" />
+    <meta name="theme-color" media="(prefers-color-scheme: dark)" content="#0C0C0D" />
+
     <link rel="stylesheet" href="/styles.css" />
   </head>
   <body>
     <!-- Auth gate -->
     <section id="gate" class="gate">
       <div class="gate-inner">
-        <h1 class="gate-title">PassLink</h1>
-        <form id="gateForm" class="gate-row" autocomplete="off">
+        <div class="gate-brand">
+          <img class="brand-mark lg" src="/favicon.svg" width="56" height="56" alt="" />
+          <h1 class="gate-title">PassLink</h1>
+          <p class="gate-sub">Enter your access code to continue</p>
+        </div>
+        <form id="gateForm" class="gate-form" autocomplete="off">
           <input
             id="gateInput"
             type="text"
             spellcheck="false"
             autocapitalize="off"
             placeholder="Access code"
+            aria-label="Access code"
             required
           />
           <button id="gateBtn" type="submit">Enter</button>
         </form>
-        <div id="gateError" class="gate-error" hidden></div>
+        <div id="gateError" class="gate-error" role="alert" hidden></div>
+        <p class="gate-foot">
+          Need a code? Ask
+          <a href="https://t.me/bossjay0728" target="_blank" rel="noopener noreferrer">@bossjay0728</a>.
+        </p>
       </div>
     </section>
 
     <!-- Main app -->
     <main id="app" hidden>
       <header class="app-head">
-        <h1>PassLink</h1>
-        <nav class="tabs">
+        <div class="brand">
+          <img class="brand-mark" src="/favicon.svg" width="30" height="30" alt="" />
+          <span class="brand-name">PassLink</span>
+        </div>
+        <nav class="tabs" aria-label="Sections">
           <button class="tab active" data-tab="bypass">Bypass</button>
           <button class="tab admin-only" data-tab="management" hidden>Management</button>
         </nav>
@@ -39,7 +59,7 @@
 
       <!-- Bypass tab -->
       <section id="tab-bypass" class="tab-panel">
-        <p class="tagline">Bypass shorteners and ad-gated countdowns. Paste a link, get the destination.</p>
+        <p class="tagline">Paste a shortened or ad-gated link and get the final destination.</p>
 
         <form id="form" autocomplete="off">
           <input
@@ -47,18 +67,21 @@
             type="text"
             inputmode="url"
             spellcheck="false"
-            placeholder="https://urlshortx.io/... or any shortened URL"
+            placeholder="https://urlshortx.io/… or any shortened URL"
+            aria-label="Link to bypass"
             required
           />
-          <button id="go" type="submit">Bypass</button>
-          <button id="resend" type="button" class="ghost" hidden title="Re-run with the same URL">Resend</button>
-          <button id="reset" type="button" class="ghost" hidden>Reset</button>
+          <div class="form-actions">
+            <button id="go" type="submit">Bypass</button>
+            <button id="resend" type="button" class="ghost" hidden title="Re-run with the same URL">Resend</button>
+            <button id="reset" type="button" class="ghost" hidden>Reset</button>
+          </div>
         </form>
 
         <section id="logBox" class="panel log hidden" aria-live="polite">
           <div class="panel-head">
             <span class="dot"></span>
-            <span id="logTitle">Working…</span>
+            <span id="logTitle" class="label">Working…</span>
             <span class="grow"></span>
             <span id="logElapsed" class="muted mono"></span>
           </div>

@@ -1,0 +1,19 @@
+services:
+  passlink:
+    build: .
+    image: passlink:latest
+    container_name: passlink
+    restart: unless-stopped
+    # Secrets come from .env on the host, never baked into the image.
+    env_file: .env
+    environment:
+      NODE_ENV: production
+      PORT: "3000"
+    ports:
+      # LAN-only web UI. The bot itself needs no inbound port — it polls out.
+      - "3000:3000"
+    logging:
+      driver: json-file
+      options:
+        max-size: "10m"
+        max-file: "3"

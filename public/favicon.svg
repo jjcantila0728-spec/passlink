@@ -1,0 +1,9 @@
+<svg width="48" height="48" viewBox="0 0 48 48" fill="none" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="PassLink">
+  <rect width="48" height="48" rx="12" fill="#18181B"/>
+  <!-- gate posts: an open bracket pair -->
+  <path d="M19 14 H14 V34 H19" stroke="#FAFAFA" stroke-width="3" stroke-linecap="round" stroke-linejoin="round" fill="none"/>
+  <path d="M29 14 H34 V34 H29" stroke="#FAFAFA" stroke-width="3" stroke-linecap="round" stroke-linejoin="round" fill="none"/>
+  <!-- the link passing through and breaking out the right gate -->
+  <path d="M16 24 H37" stroke="#3B82F6" stroke-width="3.2" stroke-linecap="round"/>
+  <path d="M32 19 L37 24 L32 29" stroke="#3B82F6" stroke-width="3.2" stroke-linecap="round" stroke-linejoin="round" fill="none"/>
+</svg>

@@ -41,6 +41,9 @@ function requireAdmin(req, res, next) {
   res.status(403).json({ ok: false, error: "Admin access required" });
 }
 
+// Liveness probe for the container healthcheck.
+app.get("/healthz", (_req, res) => res.json({ ok: true }));
+
 // --- Access code endpoints ---
 
 app.post("/api/auth", async (req, res) => {

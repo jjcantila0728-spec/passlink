@@ -1,0 +1,13 @@
+{
+  "name": "PassLink",
+  "short_name": "PassLink",
+  "description": "Bypass URL shorteners and ad-gated countdown pages. Paste a link, get the destination.",
+  "start_url": "/",
+  "display": "standalone",
+  "background_color": "#FAFAF9",
+  "theme_color": "#18181B",
+  "icons": [
+    { "src": "/favicon.svg", "sizes": "any", "type": "image/svg+xml", "purpose": "any" },
+    { "src": "/favicon.svg", "sizes": "any", "type": "image/svg+xml", "purpose": "maskable" }
+  ]
+}

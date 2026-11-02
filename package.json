@@ -9,6 +9,7 @@
     "bot": "node scripts/bot-poll.js",
     "webhook": "node scripts/set-webhook.js",
     "refresh-proxies": "node scripts/refresh-proxies.mjs",
+    "test:urlshortx": "node scripts/test-urlshortx.mjs",
     "serve": "node start.js"
   },
   "type": "module",

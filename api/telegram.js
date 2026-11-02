@@ -3,7 +3,7 @@ import { handleUpdate, isConfigured, getWebhookSecret } from "../lib/telegram.js
 
 loadEnv();
 
-export const config = { maxDuration: 30 };
+export const config = { maxDuration: 60 };
 
 async function readJsonBody(req) {
   if (req.body && typeof req.body === "object") return req.body;
@@ -46,9 +46,10 @@ export default async function handler(req, res) {
 
   // Process the update BEFORE responding. On serverless the function can be
   // frozen the instant the response is flushed, which would kill the outbound
-  // sendMessage if we replied first. Telegram allows ~60s before it retries and
-  // our slowest path (countdown + bypass) stays well under maxDuration, so
-  // awaiting here is safe.
+  // sendMessage if we replied first. Telegram allows ~60s before it retries.
+  // UrlShortX's blog gate plus countdown can use most of maxDuration (60s).
+  // The Docker long-poller is not under that cap. Awaiting here is still
+  // required so the reply is sent before the isolate freezes.
   if (update) {
     try {
       await handleUpdate(update);

@@ -1,7 +1,7 @@
 import { bypass } from "../lib/bypass.js";
 import { isValidCode } from "../lib/auth.js";
 
-export const config = { maxDuration: 30 };
+export const config = { maxDuration: 60 };
 
 function getAccessCode(req) {
   return (
